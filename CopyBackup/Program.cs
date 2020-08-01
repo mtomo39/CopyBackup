@@ -31,10 +31,8 @@ namespace CopyBackup
             // パラメータのうち、フォルダパス
             var targetFolders = args.Where(x => Directory.Exists(x));
 
-            foreach (var folder in targetFolders)
-            {
-                fileInfos.AddRange(new DirectoryInfo(folder).GetFiles("*", SearchOption.AllDirectories));
-            }
+            fileInfos.AddRange(targetFolders.SelectMany(x => new DirectoryInfo(x).GetFiles("*",SearchOption.AllDirectories)));
+
 
             // パラメータにファイルパスもフォルダパスの1つもない場合は処理しない
             if (fileInfos.Count == 0)
