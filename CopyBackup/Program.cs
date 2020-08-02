@@ -53,16 +53,13 @@ namespace CopyBackup
             // コピー
             try
             {
-                foreach (var file in targetFiles)
-                {
-                    Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(file, Path.Combine(destination, Path.GetFileName(file)), overwrite: true);
-                }
+                targetFiles.ToList().ForEach(file =>
+                    Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(file, Path.Combine(destination, Path.GetFileName(file)), overwrite: true));
 
-                foreach (var folder in targetFolders)
-                {
-                    Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(folder, Path.Combine(destination, new DirectoryInfo(folder).Name), overwrite: true);
-                }
-            }catch(Exception ex)
+                targetFolders.ToList().ForEach(folder =>
+                    Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(folder, Path.Combine(destination, new DirectoryInfo(folder).Name), overwrite: true));
+            }
+            catch (Exception ex)
             {
                 hasError = true;
                 Console.WriteLine(ex.ToString());
